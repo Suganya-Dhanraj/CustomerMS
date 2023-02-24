@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class CustomerDto {
 	
+	String id;
 	String name;
 	String phoneNumber;
 	String address1;

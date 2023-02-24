@@ -1,12 +1,15 @@
 package com.customer.management.entity;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -19,11 +22,9 @@ import lombok.Data;
 @Data
 public class Customer {
 
-	@Id
-	@GenericGenerator(name = "uuid_generator", strategy = "org.hibernate.id.UUIDGenerator")
-	@GeneratedValue(generator = "uuid_generator")
-	@Column(name = "CUSTOMER_ID")
-	private UUID customerId;
+	@Id 
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long customerId;
 	@Column(name = "NAME")
 	private String name;
 	@Column(name = "PHONE_NUMBER")
@@ -43,10 +44,14 @@ public class Customer {
 	@Column(name = "GENDER")
 	private String gender;
 	@CreatedDate
-    @Column(name = "RECORD_CREATION_DATE", nullable = false)
-    private LocalDateTime recordCreationDate;
+	@Column(name = "RECORD_CREATION_DATE", nullable = false)
+	private LocalDateTime recordCreationDate;
 	@Column(name = "RECORD_UPDATED_DATE")
-    private LocalDateTime recordUpdatedDate;
-	
+	private LocalDateTime recordUpdatedDate;
+
+	@PrePersist
+	public void setRecordCreationDate() {
+		this.recordCreationDate = LocalDateTime.now();
+	}
 
 }
