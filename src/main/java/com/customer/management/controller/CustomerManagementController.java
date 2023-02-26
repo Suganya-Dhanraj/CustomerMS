@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.customer.management.dto.CustomerDto;
+import com.customer.management.exception.CustomerDeleteException;
 import com.customer.management.exception.ResourceNotFoundException;
 import com.customer.management.service.CustomerManagementService;
 import com.customer.management.util.CustomerManagementValidator;
@@ -106,9 +107,9 @@ public class CustomerManagementController {
 		try {
 			customerMS.deleteCustomer(id);
 			return new ResponseEntity<String>("Customer details deleted successfully",HttpStatus.OK);
-		}catch(ResourceNotFoundException ex) {
+		}catch(ResourceNotFoundException | CustomerDeleteException ex) {
 			logger.error("Customer not found for given customer id");	
-			return new ResponseEntity<String>("Customer not found for given id", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);
 		}	
 	}
 	

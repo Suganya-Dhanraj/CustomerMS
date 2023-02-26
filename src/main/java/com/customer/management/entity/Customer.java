@@ -2,6 +2,7 @@ package com.customer.management.entity;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -43,6 +45,10 @@ public class Customer {
 	private String dob;
 	@Column(name = "GENDER")
 	private String gender;
+	
+	@OneToMany(mappedBy="customer")
+    private Set<Account> accounts;
+	
 	@CreatedDate
 	@Column(name = "RECORD_CREATION_DATE", nullable = false)
 	private LocalDateTime recordCreationDate;

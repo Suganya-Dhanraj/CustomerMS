@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.customer.management.dto.CustomerDto;
 import com.customer.management.entity.Customer;
+import com.customer.management.exception.CustomerDeleteException;
 import com.customer.management.exception.ResourceNotFoundException;
 
 public interface CustomerManagementService {
@@ -33,8 +34,9 @@ public interface CustomerManagementService {
 	 * 
 	 * @param id
 	 * @throws ResourceNotFoundException
+	 * @throws CustomerDeleteException 
 	 */
-	public void deleteCustomer(Long id) throws ResourceNotFoundException;
+	public void deleteCustomer(Long id) throws ResourceNotFoundException, CustomerDeleteException;
 	
 	/***
 	 * 

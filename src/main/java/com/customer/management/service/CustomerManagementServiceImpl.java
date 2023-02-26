@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.customer.management.dto.CustomerDto;
 import com.customer.management.entity.Customer;
+import com.customer.management.exception.CustomerDeleteException;
 import com.customer.management.exception.ResourceNotFoundException;
 import com.customer.management.repository.CustomerRepository;
 
@@ -72,10 +73,14 @@ public class CustomerManagementServiceImpl implements CustomerManagementService{
 	}
 	
 	@Override
-	public void deleteCustomer(Long id) throws ResourceNotFoundException {
+	public void deleteCustomer(Long id) throws ResourceNotFoundException, CustomerDeleteException {
 		Customer customerOld = customerRepository.findByCustomerId(id);
 		if(Objects.isNull(customerOld)) {
 			throw new ResourceNotFoundException("Customer not found");
+		}
+		
+		if(!customerOld.getAccounts().isEmpty()) {
+			throw new CustomerDeleteException("One or More Account linked to Customer, cannot delete this customer");
 		}
 		customerRepository.delete(customerOld);
 	}
